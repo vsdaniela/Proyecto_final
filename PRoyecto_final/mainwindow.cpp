@@ -7,6 +7,7 @@
 #include <QBitmap>
 #include "imagen.h"
 #include "linked_list.h"
+#include "binary_file.h"
 using namespace  std;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -23,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     lista.push_back(c);
     lista.push_back(d);
     lista.push_back(e);
+    save_list_b.save_array(lista);
     it_g= lista.begin();
     p = QPixmap("/home/daniela/Escritorio/fondo");
     ui->label_fondo->setPixmap(p);
@@ -45,7 +47,7 @@ void MainWindow::on_Mostrardatos_clicked()
 {
     string s= (*it_g).name;
     string ss= (*it_g).path;
-    int x=(*it_g).id;
+    //int x=(*it_g).id;
     QString s1 = QString::fromStdString(s);
     QString s2 = QString::fromStdString(ss);
 

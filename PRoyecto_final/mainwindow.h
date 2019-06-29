@@ -7,6 +7,7 @@
 #include <iostream>
 #include "linked_list.h"
 #include "imagen.h"
+#include "binary_file.h"
 using namespace  std;
 namespace Ui {
 class MainWindow;
@@ -23,6 +24,8 @@ public:
     linked_list<imagen>::iterator it_g;
     QString s1;
     string s;
+    binary_file save_list_b;
+
     ~MainWindow();
 
 private slots:

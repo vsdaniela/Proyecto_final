@@ -31,7 +31,8 @@ SOURCES += \
 HEADERS += \
         mainwindow.h \
     imagen.h \
-    linked_list.h
+    linked_list.h \
+    binary_file.h
 
 FORMS += \
         mainwindow.ui
