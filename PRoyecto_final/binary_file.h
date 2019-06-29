@@ -26,18 +26,6 @@ public:
     }
     void load_array(linked_list <imagen> &v)
     {
-        /*ifstream fin;
-        A s;
-        fin.open("f4.bin",ios::binary);
-        int tmp, tmp_str;
-        while(fin.read((char*)&s.x,sizeof(int))){
-            fin.read((char *)&tmp,sizeof(tmp));
-            char * t= new char [tmp];
-            fin.read(t,tmp);
-            s.str=t;
-            v.push_back(s);
-        delete []t;
-        }*/
         ifstream fin;
         fin.open("f4.bin",ios::binary);
         imagen s;
