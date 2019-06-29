@@ -54,6 +54,8 @@ public:
                 fin.read(t_2,tmp_2);
                 s.name=t;
                 v.push_back(s);
+                delete []t;
+                delete []t_2;
         }
         fin.close();
     }
