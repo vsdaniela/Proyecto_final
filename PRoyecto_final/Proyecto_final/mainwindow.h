@@ -1,0 +1,43 @@
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+
+#include <QMainWindow>
+#include <QPixmap>
+#include <QImage>
+#include <iostream>
+#include "linked_list.h"
+#include "imagen.h"
+#include "binary_file.h"
+using namespace  std;
+namespace Ui {
+class MainWindow;
+}
+
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    explicit MainWindow(QWidget *parent = nullptr);
+    linked_list <imagen> lista;
+    QPixmap p;
+    linked_list<imagen>::iterator it_g;
+    QString s1;
+    string s;
+    binary_file save_list_b;
+
+    ~MainWindow();
+
+private slots:
+    void on_Mostrardatos_clicked();
+    void on_pic_next_clicked();
+    void on_pic_prev_clicked();
+
+    void on_add_clicked();
+
+    //void on_Edit_cursorPositionChanged(int arg1, int arg2);
+private:
+    Ui::MainWindow *ui;
+};
+
+#endif // MAINWINDOW_H
