@@ -92,7 +92,7 @@ class linked_list
             return iterator(p_head);
         }
         iterator end(){
-            return iterator(nullptr);
+            return iterator(p_last);
         }
 };
 #endif
