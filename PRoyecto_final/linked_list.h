@@ -37,6 +37,7 @@ class linked_list
             }
             iterator & operator --(){
                 n=n->p_prev;
+                return *this;
             }
             bool operator != (const iterator & it){
                 return n!=it.n;
@@ -85,14 +86,14 @@ class linked_list
         void remove_back(){
             if(!p_last) return;
             node * del= p_last;
-            p_last=p_last->p_next;
+            p_last=p_last->p_prev;
             delete del;
         }
         iterator begin(){
             return iterator(p_head);
         }
         iterator end(){
-            return iterator(nullptr);
+            return iterator(p_last);
         }
 };
 #endif
