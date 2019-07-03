@@ -37,6 +37,7 @@ class linked_list
             }
             iterator & operator --(){
                 n=n->p_prev;
+                return *this;
             }
             bool operator != (const iterator & it){
                 return n!=it.n;
