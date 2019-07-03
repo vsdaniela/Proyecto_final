@@ -5,7 +5,7 @@
 #include <QMessageBox>
 #include <iostream>
 #include <QBitmap>
-#include "imagen.h"
+#include "image.h"
 #include "linked_list.h"
 #include "binary_file.h"
 using namespace  std;
@@ -15,14 +15,14 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     //save_list_b.load_array(lista);
-    imagen a(1,"/home/daniela/Escritorio/pics/des_","Uno");
-    imagen b(2,"/home/daniela/Escritorio/pics/des_2","Dos");
-    imagen c(3,"/home/daniela/Escritorio/pics/des_3","Tres");
-    imagen d(4,"/home/daniela/Escritorio/pics/des_4","Cuatro");
-    imagen e(5,"/home/daniela/Escritorio/pics/des_5","Cinco");
-    imagen f(6,"/home/daniela/Escritorio/pics/des_6","Seis");
-    imagen g(7,"/home/daniela/Escritorio/pics/des_7","Siete");
-    imagen h(8,"/home/daniela/Escritorio/pics/des_8","Ocho");
+    image a(1,"/home/daniela/Escritorio/pics/des_","Patricio");
+    image b(2,"/home/daniela/Escritorio/pics/des_2","f");
+    image c(3,"/home/daniela/Escritorio/pics/des_3","galaxia");
+    image d(4,"/home/daniela/Escritorio/pics/des_4","eclipse");
+    image e(5,"/home/daniela/Escritorio/pics/des_5","árbol");
+    image f(6,"/home/daniela/Escritorio/pics/des_6","casa");
+    image g(7,"/home/daniela/Escritorio/pics/des_7","paisaje");
+    image h(8,"/home/daniela/Escritorio/pics/des_8","jx");
     lista.push_back(a);
     lista.push_back(b);
     lista.push_back(c);
@@ -49,12 +49,15 @@ MainWindow::~MainWindow()
 void MainWindow::on_Mostrardatos_clicked()
 {
     string s= (*it_g).label;
-    string ss= (*it_g).path;
-    //int x=(*it_g).id;
+    string s_p= (*it_g).path;
+    int x=(*it_g).id;
     QString s1 = QString::fromStdString(s);
-    QString s2 = QString::fromStdString(ss);
+    QString s2 = QString::fromStdString(s_p);
+    s1=s1+"<p>"+s2;
 
     ui->label_text->setText(s1);
+    //ui->label_text->setText(s2);
+    //ui->label_text->setNum(x);
 }
 void MainWindow::on_pic_next_clicked()
 {
@@ -86,7 +89,7 @@ void MainWindow::on_pic_prev_clicked()
 }
 void MainWindow::on_add_clicked()
 {
-    imagen new_i;
+    image new_i;
     QString txt_label;
     QString txt_path;
     int num_id;
@@ -97,5 +100,17 @@ void MainWindow::on_add_clicked()
     new_i.path=txt_path.toStdString();
     new_i.id=num_id;
     lista.push_back(new_i);
+    save_list_b.save_array(lista);
+}
+
+void MainWindow::on_delete_2_clicked()
+{
+    lista.remove_front();
+    save_list_b.save_array(lista);
+}
+
+void MainWindow::on_delete_3_clicked()
+{
+    lista.remove_back();
     save_list_b.save_array(lista);
 }

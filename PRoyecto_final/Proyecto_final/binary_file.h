@@ -3,17 +3,17 @@
 #include <iostream>
 #include <fstream>
 #include "linked_list.h"
-#include "imagen.h"
+#include "image.h"
 class binary_file
 {
 public:
-    void save_array(linked_list <imagen> &v)
+    void save_array(linked_list <image> &v)
     {
         ofstream f;
         f.open("fichero_proyecto.txt",ios::binary);
-        linked_list <imagen>::iterator it= v.begin();
+        linked_list <image>::iterator it= v.begin();
         int  tmp; int tmp_2;
-        for(linked_list <imagen>::iterator it= v.begin();it!=v.end();++it){
+        for(linked_list <image>::iterator it= v.begin();it!=v.end();++it){
             f.write((char*)&(*it).id, sizeof(int));
             tmp=(*it).path.size();
             f.write((char *)&tmp, sizeof(int));
@@ -24,12 +24,12 @@ public:
         }
         f.close();
     }
-    void load_array(linked_list <imagen> &v)
+    void load_array(linked_list <image> &v)
     {
         ifstream fin;
         fin.open("fichero_proyecto.txt",ios::binary);
-        imagen s;
-        linked_list <imagen>::iterator it= v.begin();
+        image s;
+        linked_list <image>::iterator it= v.begin();
         int tmp, tmp_2;
         while(fin.read((char*)&s.id,sizeof(int))){
                 v.push_back(s);

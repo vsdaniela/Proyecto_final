@@ -6,7 +6,7 @@
 #include <QImage>
 #include <iostream>
 #include "linked_list.h"
-#include "imagen.h"
+#include "image.h"
 #include "binary_file.h"
 using namespace  std;
 namespace Ui {
@@ -19,9 +19,9 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
-    linked_list <imagen> lista;
+    linked_list <image> lista;
     QPixmap p;
-    linked_list<imagen>::iterator it_g;
+    linked_list<image>::iterator it_g;
     QString s1;
     string s;
     binary_file save_list_b;
@@ -32,10 +32,10 @@ private slots:
     void on_Mostrardatos_clicked();
     void on_pic_next_clicked();
     void on_pic_prev_clicked();
-
     void on_add_clicked();
+    void on_delete_2_clicked();
+    void on_delete_3_clicked();
 
-    //void on_Edit_cursorPositionChanged(int arg1, int arg2);
 private:
     Ui::MainWindow *ui;
 };
