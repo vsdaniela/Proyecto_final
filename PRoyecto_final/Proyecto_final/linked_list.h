@@ -1,7 +1,8 @@
+
 #ifndef LINKED_LIST_H
 #define LINKED_LIST_H
 #include <iostream>
-
+using namespace std;
 template <class T>
 class linked_list
 {
@@ -18,83 +19,113 @@ class linked_list
     };
     private:
         node * p_head;
-        node * p_last;
+
     public:
-    class iterator
-    {
-        private:
-            node* n;
-        public:
-            iterator(node * n_= nullptr){
-                n=n_;
-            }
-            T & operator * (){
-                return n->dato;
-            }
-            iterator & operator ++(){
-                n=n->p_next;
-                return *this;
-            }
-            iterator & operator --(){
-                n=n->p_prev;
-                return *this;
-            }
-            bool operator != (const iterator & it){
-                return n!=it.n;
-            }
-            ~iterator()=default;
-    };
+        class iterator
+        {
+            public:
+                node* n;
+
+                iterator(node * n_= nullptr){
+                    n=n_;
+                }
+                T & operator * (){
+                    return n->dato;
+                }
+                iterator & operator ++(){
+                    n=n->p_next;
+                    return *this;
+                }
+                iterator & operator --(){
+                    n=n->p_prev;
+                    return *this;
+                }
+                bool operator != (const iterator & it){
+                    return n!=it.n;
+                }
+                ~iterator()=default;
+        };
     public:
-        linked_list(): p_head(nullptr),p_last(nullptr){
+        linked_list(): p_head(nullptr){
         }
         ~linked_list(){
             node * del= p_head;
-            node * del2= p_last;
+
             while(del){
                 p_head=del->p_next;
                 delete del;
                 del=p_head;
             }
-            while(del2){
-                p_last=del2->p_next;
-                delete del2;
-                del2=p_last;
+        }
+        void push_front(const T& d){
+            node* tmp= new node(d,p_head,nullptr);
+            node* t_b=p_head;
+            if(!p_head) p_head=tmp;
+            else{
+                p_head->p_prev=tmp;
+                p_head=tmp;
             }
         }
         void push_back(const T& d){
-            node* tmp=new node(d);
-            if(!p_last) p_head=p_last=tmp;
-            p_last->p_next=tmp;
-            tmp->p_next= nullptr;
-            tmp->p_prev=p_last;
-             p_last=tmp;
-        }
-        void push_front(const T& d){
-            node* tmp=new node(d);
-            if(!p_head) p_head=p_last=tmp;
+            node* tmp= new node(d);
+            node* t_l=p_head;
+            if(!p_head) p_head=tmp;
             else{
-                tmp=p_head;
-                p_head=new node(d,p_head,tmp);
-            }
+                while(t_l->p_next)
+                    t_l=t_l->p_next;
+                t_l->p_next=new node(d,nullptr,t_l);
+             }
         }
         void remove_front(){
             if(!p_head) return;
-            node * del= p_head;
-            p_head=p_head->p_next;
-            delete del;
+             node * del = p_head;
+             p_head = p_head -> p_next;
+             delete del;
         }
         void remove_back(){
-            if(!p_last) return;
-            node * del= p_last;
-            p_last=p_last->p_prev;
-            delete del;
+            node * tmp = p_head;
+            if(p_head)
+            {
+                while(tmp->p_next)
+                {
+                    tmp = tmp->p_next;
+                    if(tmp)
+                    {
+                        node * del=tmp;
+                        tmp=tmp->p_prev;
+                        tmp->p_next=nullptr;
+                        delete del;
+                    }
+                }
+            }
+        }
+        void remove_this(iterator i){
+            node * del= i.n;
+            if(del->p_prev && del->p_next){
+                node * tmp_prev = del->p_prev;
+                node * tmp_next = del->p_next;
+                tmp_prev -> p_next = tmp_next;
+                tmp_next -> p_prev = tmp_prev;
+                delete del;
+            }
+            else if(del==p_head){
+                remove_front();
+            }
+            else{
+                remove_back();
+            }
         }
         iterator begin(){
             return iterator(p_head);
         }
         iterator end(){
-            return iterator(p_last);
+            node* tmp_l = p_head;
+            if(!tmp_l->p_next) return iterator(tmp_l);
+            while(tmp_l){
+                tmp_l=tmp_l->p_next;
+                if(tmp_l->p_next==nullptr) return iterator(tmp_l);
+            }
         }
 };
-#endif
 
+#endif // LINKED_LIST_H

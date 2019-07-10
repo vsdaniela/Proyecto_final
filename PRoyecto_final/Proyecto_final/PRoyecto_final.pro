@@ -30,9 +30,10 @@ SOURCES += \
 
 HEADERS += \
         mainwindow.h \
-    linked_list.h \
     binary_file.h \
-    image.h
+    image.h \
+    linked_list.h \
+    bst.h
 
 FORMS += \
         mainwindow.ui

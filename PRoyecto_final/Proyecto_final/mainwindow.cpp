@@ -2,12 +2,12 @@
 #include "ui_mainwindow.h"
 #include <QImage>
 #include <QPixmap>
-#include <QMessageBox>
 #include <iostream>
-#include <QBitmap>
 #include "image.h"
 #include "linked_list.h"
 #include "binary_file.h"
+#include <QFileDialog>
+#include "bst.h"
 using namespace  std;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -15,49 +15,37 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     //save_list_b.load_array(lista);
-    image a(1,"/home/daniela/Escritorio/pics/des_","Patricio");
-    image b(2,"/home/daniela/Escritorio/pics/des_2","f");
-    image c(3,"/home/daniela/Escritorio/pics/des_3","galaxia");
-    image d(4,"/home/daniela/Escritorio/pics/des_4","eclipse");
-    image e(5,"/home/daniela/Escritorio/pics/des_5","árbol");
-    image f(6,"/home/daniela/Escritorio/pics/des_6","casa");
-    image g(7,"/home/daniela/Escritorio/pics/des_7","paisaje");
-    image h(8,"/home/daniela/Escritorio/pics/des_8","jx");
+    image a("Auroras","/home/daniela/Escritorio/pics/des_13","auroras_boreales");
     lista.push_back(a);
-    lista.push_back(b);
-    lista.push_back(c);
-    lista.push_back(d);
-    lista.push_back(e);
-    lista.push_back(f);
-    lista.push_back(g);
-    lista.push_back(h);
+    image_tree.insert(a.name,a);
     save_list_b.save_array(lista);
     it_g= lista.begin();
     p = QPixmap("/home/daniela/Escritorio/fondo");
     ui->label_fondo->setPixmap(p);
-    s=(*it_g).path;
-    s1 = QString::fromStdString(s);
+    s_=(*it_g).path;
+    s1 = QString::fromStdString(s_);
     p= QPixmap(s1);
     ui->label_pic->setPixmap(p);
+    labels_total.push_back((*it_g).label);
+    string q_tmp= (*it_g).label;
+    QString s=QString::fromStdString(q_tmp);
+    ui->comboBox->addItem(s);
 }
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-
-
 void MainWindow::on_Mostrardatos_clicked()
 {
     string s= (*it_g).label;
     string s_p= (*it_g).path;
-    int x=(*it_g).id;
+    string s_n= (*it_g).name;
     QString s1 = QString::fromStdString(s);
     QString s2 = QString::fromStdString(s_p);
-    s1=s1+"<p>"+s2;
+    QString s3 = QString::fromStdString(s_n);
+    QString st=s1+"<p>"+s2+"<p>"+s3;
 
-    ui->label_text->setText(s1);
-    //ui->label_text->setText(s2);
-    //ui->label_text->setNum(x);
+    ui->label_text->setText(st);
 }
 void MainWindow::on_pic_next_clicked()
 {
@@ -68,10 +56,10 @@ void MainWindow::on_pic_next_clicked()
     else {
         it_g=lista.begin();
     }
-    s=(*it_g).path;
-    s1 = QString::fromStdString(s);
-    p= QPixmap(s1);
-    ui->label_pic->setPixmap(p);
+    s_=(*it_g).path;
+    s1=QString::fromStdString(s_);
+    p=QPixmap(s1);
+    ui->label_pic->setPixmap(s1);
 }
 void MainWindow::on_pic_prev_clicked()
 {
@@ -80,37 +68,67 @@ void MainWindow::on_pic_prev_clicked()
     }
     else{
         it_g=lista.end();
-
     }
-    s=(*it_g).path;
-    s1=QString::fromStdString(s);
+    s_=(*it_g).path;
+    s1=QString::fromStdString(s_);
     p=QPixmap(s1);
     ui->label_pic->setPixmap(s1);
+
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    QString atmp= ui->label_->text();
+    new_i.label=atmp.toStdString();
+    //labels_total.push_back(atmp);
 }
 void MainWindow::on_add_clicked()
 {
-    image new_i;
+
     QString txt_label;
     QString txt_path;
-    int num_id;
+    QString txt_name;
     txt_label=ui->label_->text();
-    txt_path=ui->path_->text();
-    num_id=ui->id_->text().toInt();
-    new_i.label=txt_label.toStdString();
+    txt_name=ui->name_->text();
+    if((new_i.label) != (txt_label.toStdString())){
+        new_i.label=txt_label.toStdString();
+    }
+    new_i.name=txt_name.toStdString();
+    txt_path = QFileDialog::getOpenFileName(this, "Open image","/home/daniela/Escritorio/pics");
     new_i.path=txt_path.toStdString();
-    new_i.id=num_id;
     lista.push_back(new_i);
+    image_tree.insert(new_i.name,new_i);
+    labels_total.push_back(new_i.label);
+    string a=labels_total[labels_total.size()-1];
+    QString a_tmp=QString::fromStdString(a);
+    ui->comboBox->addItem(a_tmp);
     save_list_b.save_array(lista);
 }
 
-void MainWindow::on_delete_2_clicked()
+void MainWindow::on_delete_t_clicked()
 {
-    lista.remove_front();
+    lista.remove_this(it_g);
     save_list_b.save_array(lista);
 }
 
-void MainWindow::on_delete_3_clicked()
+
+void MainWindow::on_find_clicked()
 {
-    lista.remove_back();
+    QString t=ui->line_edit->text();
+    string f=t.toStdString();
+    image image_tmp = image_tree.find(f);
+    QString s_image= QString::fromStdString(image_tmp.path);
+    p=QPixmap(s_image);
+    ui->label_pic->setPixmap(p);
+}
+
+void MainWindow::on_edit_i_clicked()
+{
+    QString ed_l = ui->label_->text();
+    QString ed_n = ui->name_->text();
+    (*it_g).label=ed_l.toStdString();
+    (*it_g).label=ed_l.toStdString();
+    QString ed_p=QFileDialog::getOpenFileName(this, "Select image","/home/daniela/Escritorio/pics");
+    (*it_g).path=ed_p.toStdString();
     save_list_b.save_array(lista);
 }

@@ -7,11 +7,11 @@ using namespace  std;
 class image
 {
     public:
-        int id;
+        string name;
         string path;
         string label;
     public:
-        image(int i=0, string p="none",string l="none");
+        image(string n="none", string p="none",string l="none");
         ~image();
 };
 
